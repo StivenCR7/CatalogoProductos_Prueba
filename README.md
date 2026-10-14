@@ -60,4 +60,12 @@ Asimismo, mediante Hibernate JPA (`spring.jpa.hibernate.ddl-auto=update`), las t
    security.config.expiration=900000
    security.config.prefix=Bearer
    security.config.key=45645612315456486745!$$$
+
+<img width="489" height="348" alt="image" src="https://github.com/user-attachments/assets/e63cc2fd-4144-42af-a094-8ffc067bbf12" />
+<img width="844" height="524" alt="image" src="https://github.com/user-attachments/assets/03d8a741-2b2e-4a26-b729-a60dca064e50" />
+<img width="1067" height="602" alt="image" src="https://github.com/user-attachments/assets/24927f6c-5ae6-432f-bc54-17ec28196c95" />
+<img width="1038" height="659" alt="image" src="https://github.com/user-attachments/assets/6131c87c-cac1-484d-bd50-8182d91cfbfc" />
+   
+
+
    
