@@ -1,0 +1,86 @@
+<div class="productos-container" style="padding: 20px; font-family: Arial, sans-serif; position: relative;">
+  <h2>Gestión de Productos</h2>
+
+  <!-- Barra de acciones -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+    <button (click)="importarDatosApi()" style="background-color: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+      Importar Datos de API
+    </button>
+
+    <div style="display: flex; gap: 5px;">
+      <input 
+        type="text" 
+        placeholder="Buscar por nombre o categoría..." 
+        [(ngModel)]="filtroTexto" 
+        (input)="buscarProductos()"
+        style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 250px;"
+      />
+    </div>
+  </div>
+
+  
+  <div *ngIf="errorMessage" style="color: red; margin-bottom: 15px; background: #ffe6e6; padding: 10px; border-radius: 4px;">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" style="color: green; margin-bottom: 15px; background: #e6ffe6; padding: 10px; border-radius: 4px;">{{ successMessage }}</div>
+
+  <!-- Grid de Productos -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+  <div *ngFor="let p of productosFiltrados" style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; background: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: space-between;">
+    <div>
+      
+      <div *ngIf="p.imagenUrl" style="text-align: center; margin-bottom: 10px;">
+        <img [src]="p.imagenUrl" alt="Imagen del producto" style="max-height: 120px; max-width: 100%; object-fit: contain; border-radius: 4px;" />
+      </div>
+
+      <h3 style="margin-top: 0; color: #333;">{{ p.nombre }}</h3>
+      <p style="margin: 4px 0; color: #666; font-size: 13px;"><strong>ID:</strong> {{ p.id }} | <strong>Ext ID:</strong> {{ p.externalId }}</p>
+      <p style="margin: 4px 0; color: #666; font-size: 13px;"><strong>Categoría:</strong> {{ p.categoria?.nombre || p.categoria }}</p>
+      <p style="margin: 4px 0; color: #666;"><strong>Precio:</strong> ${{ p.precio }}</p>
+      <p style="margin: 4px 0; color: #666;"><strong>Stock:</strong> {{ p.stock }}</p>
+    </div>
+    
+    <button (click)="abrirModalEdicion(p)" style="margin-top: 15px; background-color: #ffc107; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-weight: bold; color: #333;">
+      ✏️ Editar
+    </button>
+  </div>
+</div>
+
+  <!-- formulario de edición modal -->
+  <div *ngIf="mostrarModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+  <div style="background: white; padding: 30px; border-radius: 8px; width: 400px; max-width: 90%; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+    <h3>Editar Producto (ID: {{ editarProducto?.id }})</h3>
+    
+    <form (ngSubmit)="guardarEdicion()" #formEdicion="ngForm">
+      <div style="margin-bottom: 12px;">
+        <label style="display:block; font-size: 12px; font-weight: bold; margin-bottom: 4px;">Nombre <span style="color:red;">*</span>:</label>
+        <input type="text" [(ngModel)]="editarProducto.nombre" name="nombre" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required #nombreField="ngModel" />
+        <div *ngIf="nombreField.invalid && nombreField.touched" style="color: red; font-size: 11px; margin-top: 2px;">El nombre es obligatorio.</div>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display:block; font-size: 12px; font-weight: bold; margin-bottom: 4px;">Descripción:</label>
+        <textarea [(ngModel)]="editarProducto.descripcion" name="descripcion" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; height: 60px;"></textarea>
+      </div>
+
+      <div style="margin-bottom: 12px;">
+        <label style="display:block; font-size: 12px; font-weight: bold; margin-bottom: 4px;">Precio <span style="color:red;">*</span>:</label>
+        <input type="number" step="0.01" min="0" [(ngModel)]="editarProducto.precio" name="precio" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required #precioField="ngModel" />
+        <div *ngIf="precioField.invalid && precioField.touched" style="color: red; font-size: 11px; margin-top: 2px;">El precio es obligatorio.</div>
+        <div *ngIf="editarProducto.precio < 0" style="color: red; font-size: 11px; margin-top: 2px;">El precio debe ser mayor o igual a 0.</div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label style="display:block; font-size: 12px; font-weight: bold; margin-bottom: 4px;">Stock <span style="color:red;">*</span>:</label>
+        <input type="number" min="0" [(ngModel)]="editarProducto.stock" name="stock" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" required #stockField="ngModel" />
+        <div *ngIf="stockField.invalid && stockField.touched" style="color: red; font-size: 11px; margin-top: 2px;">El stock es obligatorio.</div>
+        <div *ngIf="editarProducto.stock < 0" style="color: red; font-size: 11px; margin-top: 2px;">El stock debe ser mayor o igual a 0.</div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" (click)="cerrarModal()" style="background-color: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Cancelar</button>
+        <button type="submit" [disabled]="formEdicion.invalid || editarProducto.precio < 0 || editarProducto.stock < 0" style="background-color: #007bff; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</div>
