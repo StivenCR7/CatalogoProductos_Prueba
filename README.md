@@ -1,6 +1,6 @@
 # CatalogoProductos_Prueba
 
-## 🏗️ Arquitectura del Proyecto
+##  Arquitectura del Proyecto
 
 El proyecto está diseñado siguiendo una **arquitectura por capas** desacoplada tanto en el Backend como en el Frontend:
 
@@ -20,7 +20,7 @@ El proyecto está diseñado siguiendo una **arquitectura por capas** desacoplada
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+##  Tecnologías Utilizadas
 
 * **Backend:** Spring Boot (Java 17), Spring Security, Spring Data JPA, JWT (JSON Web Tokens).
 * **Frontend:** Angular Standalone Components, TypeScript, HTML5 / CSS3.
@@ -30,7 +30,7 @@ El proyecto está diseñado siguiendo una **arquitectura por capas** desacoplada
 
 ---
 
-## ⚙️ Requisitos Previos y Entorno
+##  Requisitos Previos y Entorno
 
 * **Java Development Kit (JDK):** Versión 17 o superior.
 * **Node.js:** Versión 24.x.
@@ -38,7 +38,7 @@ El proyecto está diseñado siguiendo una **arquitectura por capas** desacoplada
 
 ---
 
-## 🚀 Pasos de Ejecución
+##  Pasos de Ejecución
 
 ### 1. Backend (Spring Boot)
 1. Abre la carpeta `BackendStoreApi` en tu IDE de preferencia (STS, IntelliJ IDEA, VS Code).
