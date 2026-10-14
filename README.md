@@ -60,6 +60,8 @@ Asimismo, mediante Hibernate JPA (`spring.jpa.hibernate.ddl-auto=update`), las t
    security.config.expiration=900000
    security.config.prefix=Bearer
    security.config.key=45645612315456486745!$$$
+3. Usa el comando "npm install" para descargar las dependencias, luego usa el comando npm start para inicializar el proyecto en angular
+4. Las credenciales del usuario por defecto son: correo: admingg123@gmail.com / contraseña: admin123
 
 <img width="489" height="348" alt="image" src="https://github.com/user-attachments/assets/e63cc2fd-4144-42af-a094-8ffc067bbf12" />
 <img width="844" height="524" alt="image" src="https://github.com/user-attachments/assets/03d8a741-2b2e-4a26-b729-a60dca064e50" />
